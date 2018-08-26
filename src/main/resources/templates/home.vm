@@ -1,0 +1,62 @@
+<html>
+    <body>
+        <pre>
+            #*
+            你看不到我~~~~
+            *#
+                $!{value1}
+                $!{value2} ## !的意思是如果不存在(未定义)，强制为空，不存在!会解释成文本
+                ${value3}  ##  会被解释成文本
+
+##                list的toString
+            colors: $!{colors}
+
+##                遍历list：
+                #foreach($color in $colors)
+                    This is Color $!{foreach.index}: $color, $!{foreach.count}
+                #end
+
+##                可以像写java代码一样：遍历map
+                #foreach($key in $map.keySet())
+                    Number: $key, Value: $map.get($key)
+                #end
+
+                #foreach($kv in $map.entrySet())
+                    Number: $kv.key, Value: $kv.value
+                #end
+
+##                显示自定义对象，调用user.description等同于去找有没有一个叫getDescription的方法
+            model:  $!{user.name}
+                $!{user.description}
+                $!{user.getDescription()}
+
+                #set($title = "nowcoder_title")
+            Title: $!{title}
+
+##          解析header.html
+            Parse: #parse("header.vm")
+##          静态文本效率会更高，但不会解析
+            Include: #include("header.vm")
+
+##                定义函数：宏
+                #macro (render_color, $index, $color)
+                    Color Render Macro $index, $color
+                #end
+
+##                调用函数：宏
+                #foreach($color in $colors)
+                    #render_color($foreach.index, $color)
+                #end
+
+##                定义属性
+                #set($hello = "hello")
+                #set($helloworld1 = "$!{hello} world")
+                $!hello
+                $helloworld1
+                #set($helloworld2 = "$!{hello} world")
+                #set($helloworld3 = '$!{hello} world')
+                helloword2:$helloworld2
+                helloword3:$helloworld3
+        </pre>
+    </body>
+</html>
